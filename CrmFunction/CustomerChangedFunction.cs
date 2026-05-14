@@ -45,8 +45,12 @@ namespace CrmFunction
                 {
                     From = new MailAddress("noreply@crm.com"),
                     Subject = "New customer assigned to you",
-                    Body = $"You have been assigned as the responsible salesperson for {customer.Name}",
-                    IsBodyHtml = false
+                    Body = $"You have been assigned as the responsible salesperson for the following customer:\n\n" +
+                            $"Name: {customer.Name}\n" +
+                            $"Title: {customer.Title}\n" +
+                            $"Phone: {customer.Phone}\n" +
+                            $"Email: {customer.Email}\n" +
+                            $"Address: {customer.Address}",
                 };
 
                 mail.To.Add(customer.Salesperson.Email);
