@@ -53,13 +53,25 @@ namespace CrmApi.Endpoints
             app.MapDelete("/api/customers/{id}", async (string id, ICustomerService service) =>
             {
                 var deleted = await service.DeleteCustomerAsync(id);
-                return deleted ? Results.NoContent() : Results.NotFound();
+                if (deleted)
+                {
+                    return Results.NoContent();
+                }
+                else
+                {
+                    return Results.NotFound();
+                }
+
             });
 
             app.MapPut("/api/customers/{id}", async (string id, Customer customer, ICustomerService service) =>
             {
                 var updatedCustomer = await service.UpdateCustomerAsync(id, customer);
-                return updatedCustomer != null ? Results.Ok(updatedCustomer) : Results.NotFound();
+                if (updatedCustomer != null)
+                {
+                    return Results.Ok(updatedCustomer);
+                }
+                return Results.NotFound();
             });
         }
     }
