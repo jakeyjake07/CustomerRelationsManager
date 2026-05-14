@@ -41,17 +41,38 @@ namespace CrmFunction
                     EnableSsl = true
                 };
 
-                var mail = new MailMessage
+                MailMessage mail;
+
+                if (customer.CreatedAt == customer.UpdatedAt)
                 {
-                    From = new MailAddress("noreply@crm.com"),
-                    Subject = "New customer assigned to you",
-                    Body = $"You have been assigned as the responsible salesperson for the following customer:\n\n" +
-                            $"Name: {customer.Name}\n" +
-                            $"Title: {customer.Title}\n" +
-                            $"Phone: {customer.Phone}\n" +
-                            $"Email: {customer.Email}\n" +
-                            $"Address: {customer.Address}",
-                };
+                    mail = new MailMessage
+                    {
+                        From = new MailAddress("noreply@crm.com"),
+                        Subject = "New customer assigned to you",
+                        Body = $"You have been assigned as the responsible salesperson for the following customer:\n\n" +
+                                $"Name: {customer.Name}\n" +
+                                $"Title: {customer.Title}\n" +
+                                $"Phone: {customer.Phone}\n" +
+                                $"Email: {customer.Email}\n" +
+                                $"Address: {customer.Address}",
+                    };
+
+                }
+
+                else
+                {
+                    mail = new MailMessage
+                    {
+                        From = new MailAddress("noreply@crm.com"),
+                        Subject = "New customer assigned to you",
+                        Body = $"Your existing customer has been updated, check the new details:\n\n" +
+                               $"Name: {customer.Name}\n" +
+                               $"Title: {customer.Title}\n" +
+                               $"Phone: {customer.Phone}\n" +
+                               $"Email: {customer.Email}\n" +
+                               $"Address: {customer.Address}",
+                    };
+                }
 
                 mail.To.Add(customer.Salesperson.Email);
                 await smtpClient.SendMailAsync(mail);

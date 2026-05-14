@@ -23,6 +23,9 @@ namespace CrmApi.Services
         public async Task<Customer> AddCustomerAsync(Customer customer)
         {
             customer.Id = Guid.NewGuid().ToString();
+            var now = DateTime.UtcNow;
+            customer.CreatedAt = now;
+            customer.UpdatedAt = now;
             await _container.CreateItemAsync(customer);
             return customer;
         }
@@ -98,6 +101,9 @@ namespace CrmApi.Services
             try
             {
                 customer.Id = id;
+                customer.UpdatedAt = DateTime.UtcNow;
+                var existing = await GetCustomerByIdAsync(id);
+                customer.CreatedAt = existing.CreatedAt;
                 var response = await _container.ReplaceItemAsync(customer, id, new PartitionKey(id));
                 return response.Resource;
             }
