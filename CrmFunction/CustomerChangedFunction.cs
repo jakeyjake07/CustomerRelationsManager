@@ -64,7 +64,7 @@ namespace CrmFunction
                     mail = new MailMessage
                     {
                         From = new MailAddress("noreply@crm.com"),
-                        Subject = "New customer assigned to you",
+                        Subject = "Updated information on your assigned customer",
                         Body = $"Your existing customer has been updated, check the new details:\n\n" +
                                $"Name: {customer.Name}\n" +
                                $"Title: {customer.Title}\n" +
