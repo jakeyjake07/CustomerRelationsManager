@@ -70,7 +70,7 @@ namespace CrmApi.Services
 
         public async Task<IEnumerable<Customer>> GetCustomersByNameAsync(string name)
         {
-            var queryDef = new QueryDefinition("SELECT * FROM c WHERE CONTAINS(c.Name, @name)")
+            var queryDef = new QueryDefinition("SELECT * FROM c WHERE CONTAINS(LOWER(c.Name), LOWER(@name))")
                 .WithParameter("@name", name);
             var query = _container.GetItemQueryIterator<Customer>(queryDef);
             var results = new List<Customer>();
@@ -84,7 +84,7 @@ namespace CrmApi.Services
 
         public async Task<IEnumerable<Customer>> GetCustomersBySalespersonAsync(string salespersonName)
         {
-            var queryDef = new QueryDefinition("SELECT * FROM c WHERE CONTAINS(c.Salesperson.Name, @salespersonName)")
+            var queryDef = new QueryDefinition("SELECT * FROM c WHERE CONTAINS(LOWER(c.Salesperson.Name), LOWER(@salespersonName))")
                 .WithParameter("@salespersonName", salespersonName);
             var query = _container.GetItemQueryIterator<Customer>(queryDef);
             var results = new List<Customer>();
